@@ -1,6 +1,7 @@
 .card-header {
-        margin-top: auto;
-        margin-bottom: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 2em;
 }
 .card {
   width: 25%;

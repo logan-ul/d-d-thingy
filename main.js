@@ -1,5 +1,5 @@
 function grabData(link='') {
-  let d = fetch(`https://www.dnd5eapi.co/api/2014/${link}`)
+  let d = fetch(`https://www.dnd5eapi.co${link}`)
     .then((response) => {
       return response.json();
     })

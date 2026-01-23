@@ -14,8 +14,7 @@
   <script type="module">
     import { grabData, createCard } from "./main.js";
     const cardContainer = document.querySelector(".card-container");
-    const tag = grabData().then((data) => {
-      console.log(data);
+    grabData("/api/2014").then((data) => {
       Object.keys(data).forEach((category) => {
         let newTag = document.createElement("a");
         newTag.classList.add("card-header");

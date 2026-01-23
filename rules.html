@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rules</title>
+    <link rel="stylesheet" href="basic.css" />
+    <script src="main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      .sub-header {
+        font-size: 1.8em;
+      }
+    </style>
+  </head>
+  <body></body>
+  <script type="module">
+    import { grabData } from "./main.js";
+    grabData("/api/2014/rules").then((data) => {
+      data["results"].forEach((rule) => {
+        //creating rule section which holds header and relavent information
+        let section = document.createElement("div");
+        section.classList.add("rule-section");
+
+        //creating header for each rule section
+        let header = document.createElement("h1");
+        header.innerHTML = rule["name"];
+        section.appendChild(header);
+
+        //creating list for each rule section
+        let list = document.createElement("ul");
+        grabData(rule["url"]).then((data) => {
+          data["subsections"].forEach((subSection) => {
+            grabData(subSection["url"]).then((data) => {
+              let pTag = document.createElement("p");
+              pTag.innerHTML = marked.parse(data["desc"]);
+              list.appendChild(pTag);
+            });
+          });
+        });
+        section.appendChild(list);
+
+        //adding section to body
+        const docBody = document.querySelector("body");
+        docBody.appendChild(section);
+      });
+    });
+  </script>
+</html>

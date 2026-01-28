@@ -3,9 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Ability Scores</title>
+    <script defer type="module">
+      import { grabData } from "./main.js";
+      grabData("/api/2014/ability-scores").then((data) => {
+        let body = document.querySelector("body");
+        data["results"].forEach((attribute) => {
+          // main container
+          let container = document.createElement("div");
+          // creating h1 with attirbute name
+          let header = document.createElement("h1");
+          container.appendChild(header);
+          grabData(attribute["url"]).then((data) => {
+            header.innerHTML = data["full_name"];
+            // description
+            let description = document.createElement("p");
+            description.innerHTML = data["desc"];
+            container.appendChild(description);
+            // list header
+            let listHeader = document.createElement("h2");
+            listHeader.innerHTML = "Related Skills:";
+            container.appendChild(listHeader);
+            // list containing skills
+            let list = document.createElement("ul");
+            data["skills"].forEach((skill) => {
+              let listObject = document.createElement("li");
+              let link = document.createElement("a");
+              link.innerHTML = skill["name"];
+              link.href = `skills.html#${skill["index"]}`;
+              listObject.appendChild(link);
+              list.appendChild(listObject);
+              container.appendChild(list);
+            });
+            body.appendChild(container);
+          });
+        });
+      });
+    </script>
   </head>
-  <body>
-    <h1>test</h1>
-  </body>
+  <body></body>
 </html>

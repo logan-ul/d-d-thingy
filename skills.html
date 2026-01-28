@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skills</title>
+  </head>
+  <body>
+    <a href="main.html">Return</a>
+  </body>
+  <script type="module">
+    import { grabData } from "./main.js";
+    grabData("/api/2014/skills").then((data) => {
+      const bod = document.querySelector("body");
+      data["results"].forEach((skill) => {
+        // new container to hold it all
+        let cont = document.createElement("div");
+        // new header containing each skill
+        let header = document.createElement("h1");
+        header.innerHTML = skill["name"];
+        header.id = skill["index"];
+        cont.appendChild(header);
+        // adding description
+        let description = document.createElement("p");
+        grabData(skill["url"]).then((data) => {
+          description.innerHTML = data["desc"];
+          cont.appendChild(description);
+        });
+        bod.appendChild(cont);
+      });
+    });
+  </script>
+</html>

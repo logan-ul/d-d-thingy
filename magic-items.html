@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      a {
+        font-size: 5em;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="main.html">Return</a>
+    <div class="card-container"></div>
+  </body>
+  <script type="module">
+    import { grabData, createCard } from "./main.js";
+    const cardContainer = document.querySelector(".card-container");
+    grabData("/api/magic-items").then((data) => {
+      data.results.forEach((val) => {
+        console.log(val.name);
+        let newTag = document.createElement("p");
+        newTag.classList.add("card-header");
+        newTag.innerHTML = val.name;
+        createCard(newTag);
+      });
+    });
+  </script>
+</html>

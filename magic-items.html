@@ -4,27 +4,90 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="basic.css" />
     <style>
       a {
         font-size: 5em;
+        text-align: center;
+        align-self: center;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      svg {
+        cursor: pointer;
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
       }
     </style>
   </head>
   <body>
-    <a href="main.html">Return</a>
+    <p>
+      <a href="main.html">Return</a>
+    </p>
     <div class="card-container"></div>
+    <p>
+      <svg
+        class="back"
+        width="100px"
+        height="100px"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        id="left-button"
+      >
+        <path
+          d="M12 8L8 12M8 12L12 16M8 12H16M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <svg
+        class="next"
+        width="100px"
+        height="100px"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        id="right-button"
+      >
+        <path
+          d="M12 16L16 12M16 12L12 8M16 12H8M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </p>
   </body>
   <script type="module">
     import { grabData, createCard } from "./main.js";
     const cardContainer = document.querySelector(".card-container");
+
     grabData("/api/magic-items").then((data) => {
-      data.results.forEach((val) => {
-        console.log(val.name);
-        let newTag = document.createElement("p");
-        newTag.classList.add("card-header");
-        newTag.innerHTML = val.name;
-        createCard(newTag);
-      });
+      for (let i = 0; i < 50; i++) {
+        console.log(data.results[i]);
+        let newCard = document.createElement("div");
+        let newText = document.createElement("p");
+        let newImg = document.createElement("img");
+        newImg.src = `https://www.dnd5eapi.co/api/images/magic-items/${data.results[i].index}.png`;
+        newCard.classList.add("card-header");
+        newText.innerHTML = data.results[i].name;
+        newCard.append(newText, newImg);
+        createCard(newCard);
+      }
+      console.log("End");
     });
   </script>
 </html>
